@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign Shop Profitability Audit | CoreBridge</title>
+<meta name="description" content="Take the free 8-minute CoreBridge profitability audit and get a red/yellow/green score across 4 key areas of your shop's operations.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --green: #A3C955;
+  --green-dark: #8ab446;
+  --bg: #ffffff;
+  --bg-card: #f5f5f5;
+  --border: #e0e0e0;
+  --text: #333333;
+  --text-secondary: #666666;
+  --text-muted: #999999;
+  --white: #ffffff;
+  --red: #ef4444;
+  --red-bg: rgba(239,68,68,0.1);
+  --yellow: #eab308;
+  --yellow-bg: rgba(234,179,8,0.1);
+  --green-bg: rgba(163,201,85,0.15);
+  --btn-text: #ffffff;
+  --cta-bg: #333333;
+}
+
+body {
+  font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+.app {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 20px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Logo ── */
+.logo-wrap {
+  text-align: center;
+  padding: 28px 0 20px;
+}
+
+.logo-wrap img {
+  width: 160px;
+  height: auto;
+  display: inline-block;
+}
+
+.logo-fallback {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  display: none;
+}
+
+.logo-fallback span { color: var(--green); }
+
+.logo-wrap img[src] ~ .logo-fallback { display: none; }
+
+/* ── Progress ── */
+.progress-wrapper { padding: 0 0 28px; }
+
+.progress-label {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.progress-track {
+  width: 100%;
+  height: 6px;
+  background: var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--green);
+  border-radius: 3px;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 0%;
+}
+
+/* ── Screens ── */
+.screen {
+  display: none;
+  flex: 1;
+  animation: fadeIn 0.35s ease;
+}
+
+.screen.active {
+  display: flex;
+  flex-direction: column;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Start ── */
+.start-screen {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding-bottom: 80px;
+}
+
+.start-screen h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 16px;
+  letter-spacing: -0.02em;
+  text-align: center;
+}
+
+.start-screen p {
+  font-size: 1.0625rem;
+  color: var(--text-secondary);
+  max-width: 520px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--green);
+  color: var(--btn-text);
+  border: none;
+  padding: 14px 32px;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  font-family: inherit;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  text-decoration: none;
+}
+
+.btn-primary:hover {
+  background: var(--green-dark);
+  transform: translateY(-1px);
+}
+
+.btn-primary:active { transform: translateY(0); }
+
+/* ── Question ── */
+.question-screen { padding-bottom: 40px; }
+
+.category-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 14px;
+  background: #f0f0f0;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 20px;
+}
+
+.question-text {
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  margin-bottom: 28px;
+}
+
+.answers {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.answer-card {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 16px;
+  padding: 18px 20px;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s, transform 0.15s;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--text);
+  text-align: left;
+  font-family: inherit;
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.answer-card:hover {
+  border-color: var(--green);
+  background: rgba(163, 201, 85, 0.08);
+  transform: translateY(-1px);
+}
+
+.answer-card.selected {
+  border-color: var(--green);
+  background: rgba(163, 201, 85, 0.08);
+}
+
+.answer-letter {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: var(--bg-card);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  transition: background 0.2s, color 0.2s;
+}
+
+.answer-card:hover .answer-letter,
+.answer-card.selected .answer-letter {
+  background: var(--green);
+  color: var(--white);
+}
+
+.answer-text { padding-top: 4px; }
+
+/* ── Gate ── */
+.gate-screen {
+  justify-content: center;
+  padding-bottom: 60px;
+}
+
+.gate-screen h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+}
+
+.gate-screen .gate-sub {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  margin-bottom: 32px;
+}
+
+.form-group { margin-bottom: 16px; }
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px 16px;
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  color: var(--text);
+  font-size: 1rem;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus { border-color: var(--green); }
+.form-group input::placeholder { color: #bbbbbb; }
+
+.form-group .error-msg {
+  font-size: 0.8125rem;
+  color: var(--red);
+  margin-top: 4px;
+  display: none;
+}
+
+.form-group.has-error input { border-color: var(--red); }
+.form-group.has-error .error-msg { display: block; }
+
+.gate-submit { margin-top: 8px; width: 100%; }
+
+.gate-footer {
+  text-align: center;
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  margin-top: 16px;
+}
+
+/* ── Results ── */
+.results-screen { padding-bottom: 60px; }
+
+.results-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.score-ring {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  position: relative;
+  background: var(--border);
+}
+
+.score-ring::before {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  border-radius: 50%;
+  background: var(--white);
+  z-index: 0;
+}
+
+.score-value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1;
+  z-index: 1;
+  color: var(--text);
+}
+
+.score-total {
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+  z-index: 1;
+}
+
+.score-label {
+  display: inline-flex;
+  padding: 6px 20px;
+  border-radius: 100px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+
+.score-label.high { background: var(--green-bg); color: var(--green); }
+.score-label.mid { background: var(--yellow-bg); color: var(--yellow); }
+.score-label.low { background: var(--red-bg); color: var(--red); }
+
+/* ── Category Cards ── */
+.category-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 48px;
+}
+
+.cat-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cat-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cat-name {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.cat-indicator { font-size: 1.25rem; }
+
+.cat-score { font-size: 1.75rem; font-weight: 700; color: var(--text); }
+
+.cat-score span {
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--text-muted);
+}
+
+.cat-rating {
+  display: inline-flex;
+  align-self: flex-start;
+  padding: 3px 12px;
+  border-radius: 100px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.cat-rating.green { background: var(--green-bg); color: var(--green); }
+.cat-rating.yellow { background: var(--yellow-bg); color: var(--yellow); }
+.cat-rating.red { background: var(--red-bg); color: var(--red); }
+
+.cat-summary {
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--text);
+  font-weight: 500;
+}
+
+.cat-actions {
+  list-style: none;
+  padding: 0;
+  margin: 4px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cat-actions li {
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: #555555;
+  padding-left: 16px;
+  position: relative;
+}
+
+.cat-actions li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 7px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+}
+
+/* ── Results CTA ── */
+.results-cta {
+  background: var(--cta-bg);
+  border: none;
+  border-radius: 24px;
+  padding: 40px 32px;
+  text-align: center;
+}
+
+.results-cta h3 {
+  font-size: 1.375rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
+  color: var(--white);
+}
+
+.results-cta p {
+  font-size: 0.9375rem;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 24px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  .start-screen h1 { font-size: 1.625rem; }
+  .question-text { font-size: 1.25rem; }
+  .form-row { grid-template-columns: 1fr; }
+  .category-cards { grid-template-columns: 1fr; }
+  .results-cta { padding: 32px 20px; }
+  .score-ring { width: 120px; height: 120px; }
+  .score-value { font-size: 2rem; }
+  .gate-screen h2 { font-size: 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ── Logo (shown on every screen via fixed position) ── -->
+  <div class="logo-wrap">
+    <img src="Logo_2-green-white.svg" alt="CoreBridge" onerror="this.style.display='none';this.nextElementSibling.style.display='inline';">
+    <div class="logo-fallback">Core<span>Bridge</span>®</div>
+  </div>
+
+  <!-- ── Progress Bar ── -->
+  <div class="progress-wrapper" id="progressWrapper" style="display:none;">
+    <div class="progress-label">
+      <span id="progressText">Question 1 of 9</span>
+      <span id="progressPct">0%</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+  </div>
+
+  <!-- ── Start Screen ── -->
+  <div class="screen active" id="startScreen">
+    <div class="start-screen">
+      <h1>See Exactly Where Your Business Is Leaving Money on the Table</h1>
+      <p>Answer 9 quick questions about how your shop operates today. You'll get an instant scorecard across four key areas of your business — plus a full results summary emailed directly to you.</p>
+      <button class="btn-primary" onclick="startAudit()">Start My Free Audit →</button>
+    </div>
+  </div>
+
+  <!-- ── Question Screen ── -->
+  <div class="screen" id="questionScreen">
+    <div class="question-screen">
+      <div class="category-badge" id="categoryBadge"></div>
+      <h2 class="question-text" id="questionText"></h2>
+      <div class="answers" id="answersContainer"></div>
+    </div>
+  </div>
+
+  <!-- ── Email Gate ── -->
+  <div class="screen" id="gateScreen">
+    <div class="gate-screen">
+      <h2>Your results are ready.</h2>
+      <p class="gate-sub">Enter your details below to see your full profitability score.</p>
+      <form id="gateForm" onsubmit="return submitGate(event)" novalidate>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input type="text" id="firstName" placeholder="Jane" required>
+            <div class="error-msg">First name is required</div>
+          </div>
+          <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input type="text" id="lastName" placeholder="Smith" required>
+            <div class="error-msg">Last name is required</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="shopName">Shop Name</label>
+          <input type="text" id="shopName" placeholder="Your Sign Shop" required>
+          <div class="error-msg">Shop name is required</div>
+        </div>
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" placeholder="jane@yourshop.com" required>
+          <div class="error-msg">A valid email is required</div>
+        </div>
+        <button type="submit" class="btn-primary gate-submit">See My Score →</button>
+      </form>
+      <p class="gate-footer">We'll also send your results to this email so you can reference them later.</p>
+    </div>
+  </div>
+
+  <!-- ── Results Screen ── -->
+  <div class="screen" id="resultsScreen">
+    <div class="results-screen">
+      <div class="results-header">
+        <div class="score-ring" id="scoreRing">
+          <div class="score-value" id="scoreValue"></div>
+          <div class="score-total">out of 100</div>
+        </div>
+        <div class="score-label" id="scoreLabel"></div>
+      </div>
+      <div class="category-cards" id="categoryCards"></div>
+      <div class="results-cta">
+        <h3>Want to see how CoreBridge addresses each of these?</h3>
+        <p>Book a free 15-minute walkthrough with our team. No pressure — just clarity.</p>
+        <a href="https://www.corebridge.net/contact" target="_blank" class="btn-primary">Schedule My Free Walkthrough →</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ── Questions ──
+const questions = [
+  {
+    id: 1, category: "Quoting Speed",
+    text: "How do you currently build estimates for new jobs?",
+    answers: [
+      { letter: "A", text: "Spreadsheets or documents, built per job", points: 1 },
+      { letter: "B", text: "A starting point with significant customization each time", points: 2 },
+      { letter: "C", text: "Templates that cover most jobs", points: 3 },
+      { letter: "D", text: "Structured pricing consistent across all jobs and team members", points: 4 }
+    ]
+  },
+  {
+    id: 2, category: "Quoting Speed",
+    text: "How long does it take to send a quote after a customer requests one?",
+    answers: [
+      { letter: "A", text: "Within a couple of business days", points: 1 },
+      { letter: "B", text: "Same day when we\u2019re not at capacity", points: 2 },
+      { letter: "C", text: "Within a few hours", points: 3 },
+      { letter: "D", text: "Under 30 minutes, consistently", points: 4 }
+    ]
+  },
+  {
+    id: 3, category: "Production Visibility",
+    text: "How does your team know what jobs to work on and in what order?",
+    answers: [
+      { letter: "A", text: "Physical job tracking and direct team communication", points: 1 },
+      { letter: "B", text: "A shared board or spreadsheet", points: 2 },
+      { letter: "C", text: "A mix of digital tools and direct communication", points: 3 },
+      { letter: "D", text: "A live digital system everyone accesses in real time", points: 4 }
+    ]
+  },
+  {
+    id: 4, category: "Production Visibility",
+    text: "When a job timeline shifts, how quickly does your team know?",
+    answers: [
+      { letter: "A", text: "When a deadline approaches or during check-ins", points: 1 },
+      { letter: "B", text: "During daily team communication", points: 2 },
+      { letter: "C", text: "Within a couple of hours of the shift", points: 3 },
+      { letter: "D", text: "In real time, before it becomes an issue", points: 4 }
+    ]
+  },
+  {
+    id: 5, category: "Customer Communication",
+    text: "How do customers approve artwork and proofs?",
+    answers: [
+      { letter: "A", text: "Email and phone, case by case", points: 1 },
+      { letter: "B", text: "We send proofs and follow up as needed", points: 2 },
+      { letter: "C", text: "A defined process that works most of the time", points: 3 },
+      { letter: "D", text: "Customers approve via a self-serve link, we\u2019re notified instantly", points: 4 }
+    ]
+  },
+  {
+    id: 6, category: "Customer Communication",
+    text: "How do you notify customers when a job is complete?",
+    answers: [
+      { letter: "A", text: "We reach out directly when a job is ready", points: 1 },
+      { letter: "B", text: "An email or call goes out when jobs are complete", points: 2 },
+      { letter: "C", text: "A standard process that covers most completions", points: 3 },
+      { letter: "D", text: "Automated notification the moment job status changes", points: 4 }
+    ]
+  },
+  {
+    id: 7, category: "Revenue Clarity",
+    text: "After a job is complete, how do you assess whether it was profitable?",
+    answers: [
+      { letter: "A", text: "We track overall revenue and profitability", points: 1 },
+      { letter: "B", text: "A general sense based on job type and materials", points: 2 },
+      { letter: "C", text: "We track it but it takes some effort to pull", points: 3 },
+      { letter: "D", text: "Estimated vs. actual costs tracked automatically per job", points: 4 }
+    ]
+  },
+  {
+    id: 8, category: "Revenue Clarity",
+    text: "How does invoicing work after a job is complete?",
+    answers: [
+      { letter: "A", text: "Created separately in our accounting tool", points: 1 },
+      { letter: "B", text: "Built manually from the completed work order", points: 2 },
+      { letter: "C", text: "Mostly streamlined with some manual steps", points: 3 },
+      { letter: "D", text: "Auto-generated from approved estimates, no re-entry", points: 4 }
+    ]
+  },
+  {
+    id: 9, category: "Revenue Clarity",
+    text: "How do you handle follow-up with past customers?",
+    answers: [
+      { letter: "A", text: "Customers tend to return on their own", points: 1 },
+      { letter: "B", text: "We follow up when a natural opportunity comes up", points: 2 },
+      { letter: "C", text: "Some outreach touchpoints, not fully systematic", points: 3 },
+      { letter: "D", text: "A system tracks history and schedules proactive follow-up", points: 4 }
+    ]
+  }
+];
+
+// ── Insights with summary + 3 action bullets ──
+const insights = {
+  "Quoting Speed": {
+    red: {
+      summary: "You\u2019re likely losing jobs to faster competitors. Speed to quote is the #1 reason shops lose bids.",
+      actions: [
+        "Build a price list for your 10 most common jobs so anyone on your team can quote without starting from scratch",
+        "Set a shop rule: all quotes go out within 4 hours of the customer request",
+        "Identify the 3 jobs that take longest to quote \u2014 usually it\u2019s missing material costs or unclear labor rates"
+      ]
+    },
+    yellow: {
+      summary: "You\u2019re keeping up, but inconsistency is leaving wins on the table.",
+      actions: [
+        "Standardize your quoting template so every team member prices the same job the same way",
+        "Track your quote-to-close rate \u2014 if it\u2019s below 40%, speed isn\u2019t the only issue",
+        "Audit your last 10 lost bids \u2014 how many went to a competitor who responded faster?"
+      ]
+    },
+    green: {
+      summary: "Strong. You\u2019re winning more bids because you respond fast.",
+      actions: [
+        "Document your quoting process so it scales when you hire",
+        "Track which job types have the highest close rate and prioritize those",
+        "Consider same-day quoting as a marketing differentiator \u2014 most shops can\u2019t match it"
+      ]
+    }
+  },
+  "Production Visibility": {
+    red: {
+      summary: "Without live job visibility, delays and miscommunication are costing you more than you realize.",
+      actions: [
+        "Start with a shared Google Sheet tracking every active job, its status, and due date \u2014 this alone cuts floor miscommunication significantly",
+        "Hold a 10-minute daily standup where each job status gets called out \u2014 surfaces problems before they reach the customer",
+        "Map your production stages: what are the 5\u20137 steps every job goes through? Knowing your stages is the foundation for everything else"
+      ]
+    },
+    yellow: {
+      summary: "Your team has some visibility but gaps are creating unnecessary risk.",
+      actions: [
+        "Identify the one stage where jobs most often get stuck and fix that bottleneck first",
+        "Make sure every job has a clear owner at each stage \u2014 ambiguity is the #1 cause of jobs falling through",
+        "Add a flag to any job within 24 hours of its due date that isn\u2019t done"
+      ]
+    },
+    green: {
+      summary: "Your team has the visibility they need. Now use that data to move faster.",
+      actions: [
+        "Track average production time by job type \u2014 this data makes your turnaround commitments more accurate",
+        "Use production data to identify which machine or team member is the consistent bottleneck",
+        "Look for jobs you could batch together to reduce setup time"
+      ]
+    }
+  },
+  "Customer Communication": {
+    red: {
+      summary: "Manual approval and notification processes are slowing your team and frustrating customers.",
+      actions: [
+        "Create a standard proof approval email template and send it within 2 hours of job intake \u2014 a consistent process cuts approval time significantly",
+        "Set a follow-up trigger for every proof sent: if no response in 24 hours, someone follows up",
+        "Assign job completion notifications to a specific person for every job \u2014 not whoever remembers"
+      ]
+    },
+    yellow: {
+      summary: "Your process works most of the time \u2014 but inconsistency is eroding customer confidence.",
+      actions: [
+        "Audit your last 20 jobs \u2014 how many had approval delays over 48 hours? That\u2019s your baseline to beat",
+        "Create a customer-facing status update at each major milestone: approved, in production, ready for pickup",
+        "Ask 5 recent customers: how well did we keep you informed? The answers will be instructive"
+      ]
+    },
+    green: {
+      summary: "Your customers experience a professional, responsive shop. This is a real competitive advantage.",
+      actions: [
+        "Ask satisfied customers for Google reviews specifically mentioning your communication",
+        "Build a referral ask into your completion notification \u2014 that\u2019s when customers are happiest",
+        "Document your process so new hires maintain the same standard"
+      ]
+    }
+  },
+  "Revenue Clarity": {
+    red: {
+      summary: "If you don\u2019t know which jobs make money, you can\u2019t grow the right ones.",
+      actions: [
+        "Pick your 5 most common job types and manually calculate true cost: materials + labor time + machine time. You\u2019ll likely find 1\u20132 losing money at current prices",
+        "Track labor hours on your next 10 jobs \u2014 most shops find they\u2019re undercharging for labor by 20\u201340%",
+        "Set a minimum margin threshold (healthy sign shops target 45\u201355% gross margin) and flag any quote that falls below it"
+      ]
+    },
+    yellow: {
+      summary: "You have some data but not enough to make confident pricing and growth decisions.",
+      actions: [
+        "Compare estimated vs. actual time on every job for 2 weeks \u2014 this data will show where your estimates are consistently off",
+        "Identify your top 3 revenue job types vs. your top 3 margin job types \u2014 they\u2019re often not the same",
+        "Review pricing on your 5 most common jobs against current material costs \u2014 supplier increases often go unnoticed for months"
+      ]
+    },
+    green: {
+      summary: "You know what\u2019s working. Now use that data to do more of it.",
+      actions: [
+        "Set quarterly pricing reviews as a calendar event \u2014 material costs change and prices should too",
+        "Use your margin data to decide which services to promote and which to phase out",
+        "Share simplified margin data with your estimators \u2014 when they understand what makes a job profitable, their quotes improve"
+      ]
+    }
+  }
+};
+
+// ── State ──
+let currentQuestion = 0;
+const userAnswers = new Array(9).fill(null);
+
+const $ = id => document.getElementById(id);
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  $(id).classList.remove('active');
+  void $(id).offsetWidth;
+  $(id).classList.add('active');
+}
+
+function updateProgress() {
+  const pct = Math.round(((currentQuestion) / 9) * 100);
+  $('progressFill').style.width = pct + '%';
+  $('progressText').textContent = 'Question ' + (currentQuestion + 1) + ' of 9';
+  $('progressPct').textContent = pct + '%';
+}
+
+function startAudit() {
+  $('progressWrapper').style.display = 'block';
+  currentQuestion = 0;
+  updateProgress();
+  renderQuestion();
+  showScreen('questionScreen');
+}
+
+function renderQuestion() {
+  const q = questions[currentQuestion];
+  $('categoryBadge').textContent = q.category;
+  $('questionText').textContent = q.text;
+  const container = $('answersContainer');
+  container.innerHTML = '';
+  q.answers.forEach((a, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'answer-card';
+    btn.innerHTML = '<div class="answer-letter">' + a.letter + '</div><div class="answer-text">' + a.text + '</div>';
+    btn.addEventListener('click', () => selectAnswer(idx, a.points));
+    container.appendChild(btn);
+  });
+}
+
+function selectAnswer(idx, points) {
+  userAnswers[currentQuestion] = { index: idx, points: points };
+  const cards = $('answersContainer').querySelectorAll('.answer-card');
+  cards.forEach(c => c.classList.remove('selected'));
+  cards[idx].classList.add('selected');
+  setTimeout(() => {
+    if (currentQuestion < 8) {
+      currentQuestion++;
+      updateProgress();
+      renderQuestion();
+      showScreen('questionScreen');
+    } else {
+      $('progressWrapper').style.display = 'none';
+      showScreen('gateScreen');
+    }
+  }, 300);
+}
+
+function submitGate(e) {
+  e.preventDefault();
+  let valid = true;
+  ['firstName', 'lastName', 'shopName', 'email'].forEach(fid => {
+    const input = $(fid);
+    const group = input.closest('.form-group');
+    const val = input.value.trim();
+    group.classList.remove('has-error');
+    if (!val) { group.classList.add('has-error'); valid = false; }
+    else if (fid === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)) { group.classList.add('has-error'); valid = false; }
+  });
+  if (!valid) return false;
+  const scores = calculateScores();
+  fireWebhook(scores);
+  renderResults(scores);
+  showScreen('resultsScreen');
+  return false;
+}
+
+// ── Scoring (0-100 scale) ──
+function toHundred(raw, max) {
+  return Math.round((raw / max) * 100);
+}
+
+function rate100(score) {
+  if (score >= 80) return 'green';
+  if (score >= 55) return 'yellow';
+  return 'red';
+}
+
+function calculateScores() {
+  const pts = userAnswers.map(a => a ? a.points : 0);
+  const rawQS = pts[0] + pts[1];
+  const rawPV = pts[2] + pts[3];
+  const rawCC = pts[4] + pts[5];
+  const rawRC = pts[6] + pts[7] + pts[8];
+  const rawTotal = rawQS + rawPV + rawCC + rawRC;
+
+  const overall = toHundred(rawTotal, 36);
+  const qs = toHundred(rawQS, 8);
+  const pv = toHundred(rawPV, 8);
+  const cc = toHundred(rawCC, 8);
+  const rc = toHundred(rawRC, 12);
+
+  let overallLabel;
+  if (overall >= 80) overallLabel = 'High Performer';
+  else if (overall >= 55) overallLabel = 'Room to Grow';
+  else overallLabel = 'Leaving Money on the Table';
+
+  let overallRating;
+  if (overall >= 80) overallRating = 'high';
+  else if (overall >= 55) overallRating = 'mid';
+  else overallRating = 'low';
+
+  return {
+    overall, overallLabel, overallRating,
+    categories: [
+      { name: "Quoting Speed", score: qs, max: 100, rating: rate100(qs) },
+      { name: "Production Visibility", score: pv, max: 100, rating: rate100(pv) },
+      { name: "Customer Communication", score: cc, max: 100, rating: rate100(cc) },
+      { name: "Revenue Clarity", score: rc, max: 100, rating: rate100(rc) }
+    ]
+  };
+}
+
+function renderResults(scores) {
+  $('scoreValue').textContent = scores.overall;
+  const ring = $('scoreRing');
+  ring.className = 'score-ring ' + scores.overallRating;
+  const arcColors = { high: '#A3C955', mid: '#eab308', low: '#ef4444' };
+  const arcColor = arcColors[scores.overallRating];
+  const deg = Math.round((scores.overall / 100) * 360);
+  ring.style.background = 'conic-gradient(' + arcColor + ' 0deg ' + deg + 'deg, #e0e0e0 ' + deg + 'deg 360deg)';
+  const label = $('scoreLabel');
+  label.textContent = scores.overallLabel;
+  label.className = 'score-label ' + scores.overallRating;
+  const indicators = { green: '\uD83D\uDFE2', yellow: '\uD83D\uDFE1', red: '\uD83D\uDD34' };
+  const cardsHTML = scores.categories.map(cat => {
+    const ins = insights[cat.name][cat.rating];
+    return '<div class="cat-card">' +
+      '<div class="cat-card-header"><div class="cat-name">' + cat.name + '</div><div class="cat-indicator">' + indicators[cat.rating] + '</div></div>' +
+      '<div class="cat-score">' + cat.score + ' <span>/ 100</span></div>' +
+      '<div class="cat-rating ' + cat.rating + '">' + cat.rating.toUpperCase() + '</div>' +
+      '<div class="cat-summary">' + ins.summary + '</div>' +
+      '<ul class="cat-actions">' + ins.actions.map(a => '<li>' + a + '</li>').join('') + '</ul>' +
+      '</div>';
+  }).join('');
+  $('categoryCards').innerHTML = cardsHTML;
+}
+
+// ── Build email HTML ──
+function buildEmailHTML(scores) {
+  const firstName = $('firstName').value.trim();
+  const indicators = { green: '\u2705', yellow: '\u26A0\uFE0F', red: '\uD83D\uDD34' };
+  const ratingLabels = { green: 'GREEN', yellow: 'YELLOW', red: 'RED' };
+  const ratingColors = { green: '#A3C955', yellow: '#eab308', red: '#ef4444' };
+
+  let catRows = '';
+  scores.categories.forEach(cat => {
+    const ins = insights[cat.name][cat.rating];
+    const bullets = ins.actions.map(a => '<li style="margin-bottom:6px;color:#555555;font-size:14px;line-height:1.5;">' + a + '</li>').join('');
+    catRows += '<tr><td style="padding:20px 0;border-bottom:1px solid #eeeeee;">' +
+      '<table width="100%" cellpadding="0" cellspacing="0"><tr><td>' +
+      '<span style="font-size:16px;font-weight:600;color:#333333;">' + cat.name + '</span>' +
+      ' &nbsp;' + indicators[cat.rating] +
+      '</td><td style="text-align:right;">' +
+      '<span style="font-size:20px;font-weight:700;color:#333333;">' + cat.score + '</span>' +
+      '<span style="font-size:14px;color:#999999;"> / 100</span>' +
+      '</td></tr></table>' +
+      '<div style="display:inline-block;margin-top:8px;padding:2px 10px;border-radius:100px;font-size:12px;font-weight:600;background:' + ratingColors[cat.rating] + '22;color:' + ratingColors[cat.rating] + ';">' + ratingLabels[cat.rating] + '</div>' +
+      '<p style="margin:10px 0 8px;font-size:14px;color:#333333;font-weight:500;line-height:1.5;">' + ins.summary + '</p>' +
+      '<ul style="padding-left:18px;margin:0;">' + bullets + '</ul>' +
+      '</td></tr>';
+  });
+
+  return '<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body style="margin:0;padding:0;background:#f5f5f5;font-family:Arial,Helvetica,sans-serif;">' +
+    '<table width="100%" cellpadding="0" cellspacing="0" style="background:#f5f5f5;"><tr><td align="center" style="padding:40px 20px;">' +
+    '<table width="600" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:12px;overflow:hidden;">' +
+    '<tr><td style="background:#333333;padding:30px 40px;text-align:center;">' +
+    '<img src="https://www.corebridge.net/Logo_2-green-white.svg" alt="CoreBridge" width="140" style="display:inline-block;">' +
+    '</td></tr>' +
+    '<tr><td style="padding:40px;">' +
+    '<p style="font-size:16px;color:#333333;margin:0 0 20px;">Hi ' + firstName + ',</p>' +
+    '<p style="font-size:16px;color:#555555;margin:0 0 30px;line-height:1.5;">Here are your Sign Shop Profitability Audit results. Below you\u2019ll find your overall score and a breakdown of each category with specific next steps.</p>' +
+    '<table width="100%" cellpadding="0" cellspacing="0" style="background:#333333;border-radius:12px;margin-bottom:30px;"><tr><td style="padding:30px;text-align:center;">' +
+    '<div style="font-size:48px;font-weight:700;color:#ffffff;">' + scores.overall + '</div>' +
+    '<div style="font-size:14px;color:#aaaaaa;">out of 100</div>' +
+    '<div style="display:inline-block;margin-top:12px;padding:4px 16px;border-radius:100px;font-size:14px;font-weight:600;background:' + ratingColors[scores.categories[0].rating] + '22;color:' + (scores.overallRating === 'high' ? '#A3C955' : scores.overallRating === 'mid' ? '#eab308' : '#ef4444') + ';">' + scores.overallLabel + '</div>' +
+    '</td></tr></table>' +
+    '<table width="100%" cellpadding="0" cellspacing="0">' + catRows + '</table>' +
+    '<table width="100%" cellpadding="0" cellspacing="0" style="margin-top:30px;"><tr><td style="background:#A3C955;border-radius:12px;padding:30px;text-align:center;">' +
+    '<p style="font-size:18px;font-weight:700;color:#333333;margin:0 0 8px;">Want to see how CoreBridge solves each of these?</p>' +
+    '<p style="font-size:14px;color:#555555;margin:0 0 16px;">Book a free 15-minute walkthrough with our team.</p>' +
+    '<a href="https://www.corebridge.net/contact" style="display:inline-block;background:#333333;color:#ffffff;padding:12px 28px;border-radius:100px;font-size:14px;font-weight:600;text-decoration:none;">Schedule My Free Walkthrough \u2192</a>' +
+    '</td></tr></table>' +
+    '<p style="margin:30px 0 4px;font-size:14px;color:#333333;">Best,</p>' +
+    '<p style="margin:0;font-size:14px;font-weight:600;color:#333333;">Emma Johnson</p>' +
+    '<p style="margin:2px 0 0;font-size:13px;color:#999999;">CoreBridge Team</p>' +
+    '</td></tr></table>' +
+    '</td></tr></table></body></html>';
+}
+
+// ── Webhook ──
+function fireWebhook(scores) {
+  const answerLetters = userAnswers.map((a, i) => a ? questions[i].answers[a.index].letter : '');
+  const payload = {
+    first_name: $('firstName').value.trim(),
+    last_name: $('lastName').value.trim(),
+    shop_name: $('shopName').value.trim(),
+    email: $('email').value.trim(),
+    submitted_at: new Date().toISOString(),
+    overall_score: String(scores.overall),
+    overall_label: scores.overallLabel,
+    quoting_speed_score: String(scores.categories[0].score),
+    quoting_speed_rating: scores.categories[0].rating.toUpperCase(),
+    production_visibility_score: String(scores.categories[1].score),
+    production_visibility_rating: scores.categories[1].rating.toUpperCase(),
+    customer_communication_score: String(scores.categories[2].score),
+    customer_communication_rating: scores.categories[2].rating.toUpperCase(),
+    revenue_clarity_score: String(scores.categories[3].score),
+    revenue_clarity_rating: scores.categories[3].rating.toUpperCase(),
+    q1_answer: answerLetters[0],
+    q2_answer: answerLetters[1],
+    q3_answer: answerLetters[2],
+    q4_answer: answerLetters[3],
+    q5_answer: answerLetters[4],
+    q6_answer: answerLetters[5],
+    q7_answer: answerLetters[6],
+    q8_answer: answerLetters[7],
+    q9_answer: answerLetters[8],
+    send_email: true,
+    from_name: "Emma Johnson",
+    from_email: "emma@corebridge.net",
+    email_html: buildEmailHTML(scores)
+  };
+
+  fetch('https://hooks.zapier.com/PLACEHOLDER', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+    mode: 'no-cors'
+  }).catch(() => {});
+}
+
+// ── Keyboard ──
+document.addEventListener('keydown', (e) => {
+  const screen = document.querySelector('.screen.active');
+  if (screen && screen.id === 'questionScreen') {
+    const keyMap = { 'a': 0, 'b': 1, 'c': 2, 'd': 3, '1': 0, '2': 1, '3': 2, '4': 3 };
+    const idx = keyMap[e.key.toLowerCase()];
+    if (idx !== undefined) {
+      selectAnswer(idx, questions[currentQuestion].answers[idx].points);
+    }
+  }
+});
+</script>
+
+</body>
+</html>
