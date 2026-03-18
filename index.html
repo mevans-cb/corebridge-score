@@ -36,7 +36,7 @@ body{font-family:'IBM Plex Sans',-apple-system,BlinkMacSystemFont,sans-serif;bac
 @keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 /* start */
 .start-screen{justify-content:center;align-items:center;text-align:center;padding-bottom:80px}
-.start-screen h1{font-size:2rem;font-weight:700;line-height:1.2;margin-bottom:16px;letter-spacing:-0.02em;text-align:center}
+.start-screen h1{font-size:2rem;font-weight:700;line-height:1.2;margin-bottom:16px;letter-spacing:-0.02em;text-align:center;max-width:520px;margin-left:auto;margin-right:auto}
 .start-screen p.start-sub{font-size:1.0625rem;color:var(--text-sec);max-width:640px;margin:0 auto 0;text-align:center}
 .start-two-col{display:flex;gap:48px;align-items:center;margin-top:36px;text-align:left;width:100%}
 .start-two-col-left{flex:1}
@@ -49,7 +49,7 @@ body{font-family:'IBM Plex Sans',-apple-system,BlinkMacSystemFont,sans-serif;bac
 .report-img{width:100%;max-width:320px;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,0.12);display:block;margin:0 auto}
 /* btn */
 .btn-primary{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--green);color:var(--white);border:none;padding:14px 32px;font-size:1.0625rem;font-weight:600;font-family:inherit;border-radius:100px;cursor:pointer;transition:background .2s,transform .15s;text-decoration:none}
-.btn-primary:hover{background:var(--green-dark);transform:translateY(-1px)}
+@media(hover:hover){.btn-primary:hover{background:var(--green-dark);transform:translateY(-1px)}}
 .btn-primary:active{transform:translateY(0)}
 /* question */
 .question-screen{padding-bottom:40px}
@@ -57,10 +57,11 @@ body{font-family:'IBM Plex Sans',-apple-system,BlinkMacSystemFont,sans-serif;bac
 .question-text{font-size:1.5rem;font-weight:600;line-height:1.35;letter-spacing:-0.01em;margin-bottom:28px}
 .answers{display:flex;flex-direction:column;gap:12px}
 .answer-card{background:var(--white);border:1.5px solid var(--border);border-radius:16px;padding:18px 20px;cursor:pointer;transition:border-color .2s,background .2s,transform .15s;font-size:1rem;line-height:1.5;color:var(--text);text-align:left;font-family:inherit;width:100%;display:flex;align-items:flex-start;gap:14px}
-.answer-card:hover{border-color:var(--green);background:rgba(163,201,85,.08);transform:translateY(-1px)}
+@media(hover:hover){.answer-card:hover{border-color:var(--green);background:rgba(163,201,85,.08);transform:translateY(-1px)}}
 .answer-card.selected{border-color:var(--green);background:rgba(163,201,85,.08)}
 .answer-letter{flex-shrink:0;width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:8px;background:var(--bg-card);font-size:.875rem;font-weight:600;color:var(--text-sec);transition:background .2s,color .2s}
-.answer-card:hover .answer-letter,.answer-card.selected .answer-letter{background:var(--green);color:var(--white)}
+.answer-card.selected .answer-letter{background:var(--green);color:var(--white)}
+@media(hover:hover){.answer-card:hover .answer-letter{background:var(--green);color:var(--white)}}
 .answer-text{padding-top:4px}
 /* results */
 .results-screen{padding-bottom:60px}
@@ -133,7 +134,6 @@ body{font-family:'IBM Plex Sans',-apple-system,BlinkMacSystemFont,sans-serif;bac
   .start-two-col-right{flex:none;width:100%;max-width:280px;margin:0 auto}
   .start-two-col-left{text-align:center}
   .start-screen h1{font-size:1.625rem;text-align:center!important}
-  .start-screen h1 br{display:none}
   .question-text{font-size:1.25rem}
   .results-heading h1{font-size:1.5rem!important}
   .results-heading p{font-size:.9375rem!important}
@@ -171,7 +171,7 @@ body{font-family:'IBM Plex Sans',-apple-system,BlinkMacSystemFont,sans-serif;bac
 <!-- START -->
 <div class="screen active" id="startScreen">
   <div class="start-screen">
-    <h1>See Exactly Where Your Business Is<br>Leaving Money on the Table</h1>
+    <h1>See Exactly Where Your Business Is Leaving Money on the Table</h1>
     <p class="start-sub">Answer 10 quick questions about how your shop operates today. You'll get an instant scorecard across four key areas of your business — plus a full results summary emailed directly to you.</p>
     <div class="start-two-col">
       <div class="start-two-col-left">
@@ -201,6 +201,11 @@ body{font-family:'IBM Plex Sans',-apple-system,BlinkMacSystemFont,sans-serif;bac
     <div class="category-badge" id="categoryBadge"></div>
     <h2 class="question-text" id="questionText"></h2>
     <div class="answers" id="answersContainer"></div>
+    <div id="backBtnWrap" style="margin-top:24px;display:none;">
+      <button onclick="goBack()" style="background:none;border:none;font-family:inherit;font-size:.875rem;font-weight:500;color:#999;cursor:pointer;padding:8px 0;display:inline-flex;align-items:center;gap:6px;">
+        <span style="font-size:1.1em;">&#8592;</span> Previous Question
+      </button>
+    </div>
   </div>
 </div>
 
@@ -334,6 +339,15 @@ function renderQuestion(){
     btn.addEventListener('click',function(){selectAnswer(idx,a.points)});
     c.appendChild(btn);
   });
+  $('backBtnWrap').style.display=currentQuestion>0?'block':'none';
+}
+function goBack(){
+  if(currentQuestion>0){
+    currentQuestion--;
+    updateProgress();
+    renderQuestion();
+    showScreen('questionScreen');
+  }
 }
 function selectAnswer(idx,points){
   userAnswers[currentQuestion]={index:idx,points:points};
